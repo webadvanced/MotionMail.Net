@@ -10,6 +10,8 @@
 
         public string Value { get; set; }
 
+        public int StatusCode { get; set; }
+
         #endregion
     }
 }

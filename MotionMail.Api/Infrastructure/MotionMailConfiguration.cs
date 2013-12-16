@@ -11,6 +11,18 @@
 
         #endregion
 
+        #region Public Methods and Operators
+
+        public static void SetApiKey(string key) {
+            apiKey = key;
+        }
+
+        public static void SetSecretKey(string key) {
+            secretKey = key;
+        }
+
+        #endregion
+
         #region Methods
 
         internal static string GetApiKey() {
@@ -27,14 +39,6 @@
             }
 
             return apiKey;
-        }
-
-        internal static void SetApiKey(string key) {
-            apiKey = key;
-        }
-
-        internal static void SetSecretKey(string key) {
-            secretKey = key;
         }
 
         #endregion
