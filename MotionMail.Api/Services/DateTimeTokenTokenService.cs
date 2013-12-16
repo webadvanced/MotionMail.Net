@@ -26,13 +26,13 @@
 
         #region Public Methods and Operators
 
-        public TokenResponse Crate(DateTimeCreateCommand command) {
+        public TokenResponse Create(DateTimeCreateCommand command) {
             string url = ParameterBuilder.ApplyAllParameters(command, Urls.DateTime);
             string response = Requestor.PostString(url, ApiKey);
             return JsonConvert.DeserializeObject<TokenResponse>(response);
         }
 
-        public async Task<TokenResponse> CrateAsync(DateTimeCreateCommand command) {
+        public async Task<TokenResponse> CreateAsync(DateTimeCreateCommand command) {
             string url = ParameterBuilder.ApplyAllParameters(command, Urls.DateTime);
             string response = await Requestor.PostStringAsync(url, ApiKey);
             return await JsonConvert.DeserializeObjectAsync<TokenResponse>(response);
