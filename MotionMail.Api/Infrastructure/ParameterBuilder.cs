@@ -2,9 +2,7 @@
     using System.Reflection;
     using System.Web;
 
-    using Newtonsoft.Json;
-
-    internal static class ParameterBuilder {
+    public static class ParameterBuilder {
         #region Public Methods and Operators
 
         public static string ApplyAllParameters(object obj, string url) {
@@ -14,21 +12,12 @@
 
             string newUrl = url;
 
-            foreach (
-                PropertyInfo property in
-                    obj.GetType().GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance)) {
-                foreach (object attribute in property.GetCustomAttributes(false)) {
-                    if (attribute.GetType() != typeof(JsonPropertyAttribute)) {
-                        continue;
-                    }
+            foreach (PropertyInfo property in
+                obj.GetType().GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance)) {
+                object value = property.GetValue(obj, null);
 
-                    var jsonPropertyAttribute = (JsonPropertyAttribute)attribute;
-
-                    object value = property.GetValue(obj, null);
-
-                    if (value != null) {
-                        newUrl = ApplyParameterToUrl(newUrl, jsonPropertyAttribute.PropertyName, value.ToString());
-                    }
+                if (value != null) {
+                    newUrl = ApplyParameterToUrl(newUrl, property.Name, value.ToString());
                 }
             }
 

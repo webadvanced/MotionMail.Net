@@ -26,15 +26,15 @@
 
         #region Public Methods and Operators
 
-        public TokenResponse Create(DateTimeCreateCommand command) {
+        public TokenResponse Create(DateTimeTokenCreateCommand command) {
             string url = ParameterBuilder.ApplyAllParameters(command, Urls.DateTime);
-            string response = Requestor.PostString(url, ApiKey);
+            string response = Requestor.PostString(url, ApiKey, PrivateKey);
             return JsonConvert.DeserializeObject<TokenResponse>(response);
         }
 
-        public async Task<TokenResponse> CreateAsync(DateTimeCreateCommand command) {
+        public async Task<TokenResponse> CreateAsync(DateTimeTokenCreateCommand command) {
             string url = ParameterBuilder.ApplyAllParameters(command, Urls.DateTime);
-            string response = await Requestor.PostStringAsync(url, ApiKey);
+            string response = await Requestor.PostStringAsync(url, ApiKey, PrivateKey);
             return await JsonConvert.DeserializeObjectAsync<TokenResponse>(response);
         }
 

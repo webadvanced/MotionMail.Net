@@ -48,7 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\TokenRequestCommand.cs" />
+    <Compile Include="Commands\DateTimeTokenCreateCommand.cs" />
     <Compile Include="Entities\MotionMailError.cs" />
     <Compile Include="Entities\TokenResponse.cs" />
     <Compile Include="Infrastructure\MotionMailConfiguration.cs" />

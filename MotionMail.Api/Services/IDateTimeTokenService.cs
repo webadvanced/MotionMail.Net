@@ -7,9 +7,9 @@
     public interface IDateTimeTokenService {
         #region Public Methods and Operators
 
-        TokenResponse Create(DateTimeCreateCommand command);
+        TokenResponse Create(DateTimeTokenCreateCommand command);
 
-        Task<TokenResponse> CreateAsync(DateTimeCreateCommand command);
+        Task<TokenResponse> CreateAsync(DateTimeTokenCreateCommand command);
 
         #endregion
     }
