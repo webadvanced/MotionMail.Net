@@ -20,3 +20,4 @@ PublishProfiles/
 MailWay.Web/Assets/production/*.js
 MailWay.Web/Assets/production/*.css
 *.psess
+packages/
