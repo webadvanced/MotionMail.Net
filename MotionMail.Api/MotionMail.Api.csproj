@@ -52,7 +52,7 @@
     <Compile Include="Entities\MotionMailError.cs" />
     <Compile Include="Entities\TokenResponse.cs" />
     <Compile Include="Infrastructure\MotionMailConfiguration.cs" />
-    <Compile Include="Infrastructure\MotionMailException.cs" />
+    <Compile Include="Infrastructure\MotionMailApiException.cs" />
     <Compile Include="Infrastructure\ParameterBuilder.cs" />
     <Compile Include="Infrastructure\Requestor.cs" />
     <Compile Include="Infrastructure\Urls.cs" />

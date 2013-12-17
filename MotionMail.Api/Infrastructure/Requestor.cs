@@ -2,6 +2,9 @@
     using System;
     using System.IO;
     using System.Net;
+    using System.Net.Http;
+    using System.Net.Http.Headers;
+    using System.Security.Policy;
     using System.Text;
     using System.Threading.Tasks;
 
@@ -13,64 +16,43 @@
         #region Public Methods and Operators
 
         public static string Delete(string url, string apiKey = null, string secretKey = null) {
-            WebRequest wr = GetWebRequest(url, "DELETE", apiKey, secretKey);
-
-            return ExecuteWebRequest(wr);
+            return ExecuteWebRequest(url, "DELETE", apiKey, secretKey);
         }
 
         public static async Task<string> DeleteAsync(string url, string apiKey = null, string secretKey = null) {
-            WebRequest wr = GetWebRequest(url, "DELETE", apiKey, secretKey);
-
-            return await ExecuteWebRequestAsync(wr);
+            return await ExecuteWebRequestAsync(url, "DELETE", apiKey, secretKey);
         }
 
         public static string GetString(string url, string apiKey = null, string secretKey = null) {
-            WebRequest wr = GetWebRequest(url, "GET", apiKey, secretKey);
-
-            return ExecuteWebRequest(wr);
+            return ExecuteWebRequest(url, "GET", apiKey, secretKey);
         }
 
         public static async Task<string> GetStringAsync(string url, string apiKey = null, string secretKey = null) {
-            WebRequest wr = GetWebRequest(url, "GET", apiKey, secretKey);
-
-            return await ExecuteWebRequestAsync(wr);
+            return await ExecuteWebRequestAsync(url, "GET", apiKey, secretKey);
         }
 
         public static string PostString(string url, string apiKey = null, string secretKey = null) {
-            WebRequest wr = GetWebRequest(url, "POST", apiKey, secretKey);
-
-            return ExecuteWebRequest(wr);
+            return ExecuteWebRequest(url, "POST", apiKey, secretKey);
         }
 
         public static async Task<string> PostStringAsync(string url, string apiKey = null, string secretKey = null) {
-            WebRequest wr = GetWebRequest(url, "POST", apiKey, secretKey);
-
-            return await ExecuteWebRequestAsync(wr);
-        }
-
-        public static string PostStringBearer(string url, string apiKey = null, string secretKey = null) {
-            WebRequest wr = GetWebRequest(url, "POST", apiKey, secretKey, true);
-
-            return ExecuteWebRequest(wr);
-        }
-
-        public static async Task<string> PostStringBearerAsync(
-            string url,
-            string apiKey = null,
-            string secretKey = null) {
-            WebRequest wr = GetWebRequest(url, "POST", apiKey, secretKey, true);
-
-            return await ExecuteWebRequestAsync(wr);
+            return await ExecuteWebRequestAsync(url, "POST", apiKey, secretKey);
         }
 
         #endregion
 
         #region Methods
 
-        private static string ExecuteWebRequest(WebRequest webRequest) {
+        private static string ExecuteWebRequest(
+            string url,
+            string method,
+            string apiKey = null,
+            string secretKey = null) {
+
             try {
-                using (WebResponse response = webRequest.GetResponse()) {
-                    return ReadStream(response.GetResponseStream());
+                using (var client = new WebClient()) {
+                    client.Headers.Add("Authorization", GetAuthorizationHeaderValue(apiKey, secretKey));
+                    return client.UploadString(url, method, url.Split('?')[1]);
                 }
             }
             catch (WebException webException) {
@@ -78,19 +60,23 @@
                     throw;
                 }
                 HttpStatusCode statusCode = ((HttpWebResponse)webException.Response).StatusCode;
+                string rawError = ReadStream(webException.Response.GetResponseStream());
+                
+                var error = JsonConvert.DeserializeObject<MotionMailError>(rawError);
 
-                var error =
-                    JsonConvert.DeserializeObject<MotionMailError>(
-                        ReadStream(webException.Response.GetResponseStream()));
-
-                throw new MotionMailException(statusCode, error, error.Message);
+                throw new MotionMailApiException(statusCode, error, error.Message);
             }
         }
 
-        private static async Task<string> ExecuteWebRequestAsync(WebRequest webRequest) {
+        private static async Task<string> ExecuteWebRequestAsync(
+            string url,
+            string method,
+            string apiKey = null,
+            string secretKey = null) {
             try {
-                using (WebResponse response = webRequest.GetResponse()) {
-                    return await ReadStreamAsync(response.GetResponseStream());
+                using (var client = new WebClient()) {
+                    client.Headers.Add("Authorization", GetAuthorizationHeaderValue(apiKey, secretKey));
+                    return await client.UploadStringTaskAsync(url, method, url.Split('?')[1]);
                 }
             }
             catch (WebException webException) {
@@ -103,7 +89,7 @@
                     JsonConvert.DeserializeObject<MotionMailError>(
                         ReadStream(webException.Response.GetResponseStream()));
 
-                throw new MotionMailException(statusCode, error, error.Message);
+                throw new MotionMailApiException(statusCode, error, error.Message);
             }
         }
 
@@ -111,11 +97,6 @@
             string token = Convert.ToBase64String(Encoding.UTF8.GetBytes(string.Format("{0}:{1}", apiKey, secretKey)));
             return string.Format("Basic {0}", token);
         }
-
-        private static string GetAuthorizationHeaderValueBearer(string apiKey) {
-            return string.Format("Bearer {0}", apiKey);
-        }
-
         private static WebRequest GetWebRequest(
             string url,
             string method,
@@ -130,8 +111,8 @@
 
             request.Headers.Add(
                 "Authorization",
-                !useBearer ? GetAuthorizationHeaderValue(apiKey, secretKey) : GetAuthorizationHeaderValueBearer(apiKey));
-
+                GetAuthorizationHeaderValue(apiKey, secretKey));
+            request.ContentLength = url.Split('?')[1].Length;
             request.ContentType = "application/x-www-form-urlencoded";
             request.UserAgent = "MotionMail.net (https://github.com/webadvanced/MotionMail.Net)";
 

@@ -5,13 +5,13 @@
     using MotionMail.Api.Entities;
 
     [Serializable]
-    public class MotionMailException : ApplicationException {
+    public class MotionMailApiException : ApplicationException {
         #region Constructors and Destructors
 
-        public MotionMailException() {
+        public MotionMailApiException() {
         }
 
-        public MotionMailException(HttpStatusCode httpStatusCode, MotionMailError motionMailError, string message)
+        public MotionMailApiException(HttpStatusCode httpStatusCode, MotionMailError motionMailError, string message)
             : base(message) {
             HttpStatusCode = httpStatusCode;
             MotionMailError = motionMailError;
