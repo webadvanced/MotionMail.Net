@@ -2,9 +2,6 @@
     using System;
     using System.IO;
     using System.Net;
-    using System.Net.Http;
-    using System.Net.Http.Headers;
-    using System.Security.Policy;
     using System.Text;
     using System.Threading.Tasks;
 
@@ -48,7 +45,6 @@
             string method,
             string apiKey = null,
             string secretKey = null) {
-
             try {
                 using (var client = new WebClient()) {
                     client.Headers.Add("Authorization", GetAuthorizationHeaderValue(apiKey, secretKey));
@@ -61,7 +57,7 @@
                 }
                 HttpStatusCode statusCode = ((HttpWebResponse)webException.Response).StatusCode;
                 string rawError = ReadStream(webException.Response.GetResponseStream());
-                
+
                 var error = JsonConvert.DeserializeObject<MotionMailError>(rawError);
 
                 throw new MotionMailApiException(statusCode, error, error.Message);
@@ -97,21 +93,19 @@
             string token = Convert.ToBase64String(Encoding.UTF8.GetBytes(string.Format("{0}:{1}", apiKey, secretKey)));
             return string.Format("Basic {0}", token);
         }
+
         private static WebRequest GetWebRequest(
             string url,
             string method,
             string apiKey = null,
-            string secretKey = null,
-            bool useBearer = false) {
+            string secretKey = null) {
             apiKey = apiKey ?? MotionMailConfiguration.GetApiKey();
             secretKey = secretKey ?? MotionMailConfiguration.GetSecretKey();
 
             var request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = method;
 
-            request.Headers.Add(
-                "Authorization",
-                GetAuthorizationHeaderValue(apiKey, secretKey));
+            request.Headers.Add("Authorization", GetAuthorizationHeaderValue(apiKey, secretKey));
             request.ContentLength = url.Split('?')[1].Length;
             request.ContentType = "application/x-www-form-urlencoded";
             request.UserAgent = "MotionMail.net (https://github.com/webadvanced/MotionMail.Net)";
@@ -122,12 +116,6 @@
         private static string ReadStream(Stream stream) {
             using (var reader = new StreamReader(stream, Encoding.UTF8)) {
                 return reader.ReadToEnd();
-            }
-        }
-
-        private static async Task<string> ReadStreamAsync(Stream stream) {
-            using (var reader = new StreamReader(stream, Encoding.UTF8)) {
-                return await reader.ReadToEndAsync();
             }
         }
 
