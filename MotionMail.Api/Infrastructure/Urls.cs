@@ -8,7 +8,7 @@
 #if DEBUG
         private const string BaseUrl = "http://localhost:59975/";
 #else
-        private const string BaseUrl = "http://motionmail.apphb.com/";
+        private const string BaseUrl = "http://mmapi.apphb.com/";
 #endif
 
         #endregion

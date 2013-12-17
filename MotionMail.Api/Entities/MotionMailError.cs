@@ -4,13 +4,15 @@
     public class MotionMailError {
         #region Public Properties
 
-        public DateTime DateTimeCreated { get; set; }
-
-        public string Error { get; set; }
-
-        public string ErrorType { get; set; }
+        public DateTime DateTimeCreated { get; private set; }
 
         public string Message { get; set; }
+
+        public string Param { get; set; }
+
+        public long? StatusCode { get; set; }
+
+        public string Type { get; set; }
 
         #endregion
     }

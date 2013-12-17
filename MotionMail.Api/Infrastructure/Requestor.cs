@@ -45,6 +45,9 @@
             string method,
             string apiKey = null,
             string secretKey = null) {
+            apiKey = apiKey ?? MotionMailConfiguration.GetApiKey();
+            secretKey = secretKey ?? MotionMailConfiguration.GetSecretKey();
+
             try {
                 using (var client = new WebClient()) {
                     client.Headers.Add("Authorization", GetAuthorizationHeaderValue(apiKey, secretKey));
@@ -69,6 +72,8 @@
             string method,
             string apiKey = null,
             string secretKey = null) {
+            apiKey = apiKey ?? MotionMailConfiguration.GetApiKey();
+            secretKey = secretKey ?? MotionMailConfiguration.GetSecretKey();
             try {
                 using (var client = new WebClient()) {
                     client.Headers.Add("Authorization", GetAuthorizationHeaderValue(apiKey, secretKey));
@@ -92,25 +97,6 @@
         private static string GetAuthorizationHeaderValue(string apiKey, string secretKey) {
             string token = Convert.ToBase64String(Encoding.UTF8.GetBytes(string.Format("{0}:{1}", apiKey, secretKey)));
             return string.Format("Basic {0}", token);
-        }
-
-        private static WebRequest GetWebRequest(
-            string url,
-            string method,
-            string apiKey = null,
-            string secretKey = null) {
-            apiKey = apiKey ?? MotionMailConfiguration.GetApiKey();
-            secretKey = secretKey ?? MotionMailConfiguration.GetSecretKey();
-
-            var request = (HttpWebRequest)WebRequest.Create(url);
-            request.Method = method;
-
-            request.Headers.Add("Authorization", GetAuthorizationHeaderValue(apiKey, secretKey));
-            request.ContentLength = url.Split('?')[1].Length;
-            request.ContentType = "application/x-www-form-urlencoded";
-            request.UserAgent = "MotionMail.net (https://github.com/webadvanced/MotionMail.Net)";
-
-            return request;
         }
 
         private static string ReadStream(Stream stream) {
