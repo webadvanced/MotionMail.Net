@@ -46,10 +46,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\MockModel.cs" />
+    <Compile Include="Infrastructure\MotionMailConfigurationTests.cs" />
     <Compile Include="Infrastructure\ParameterBuilderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

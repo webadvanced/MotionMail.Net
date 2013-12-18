@@ -3,42 +3,42 @@
     using System.Configuration;
 
     public static class MotionMailConfiguration {
-        #region Constants and Fields
+        #region Public Properties
 
-        private static string apiKey;
+        public static string ApiKey { get; private set; }
 
-        private static string secretKey;
+        public static string SecretKey { get; private set; }
 
         #endregion
 
         #region Public Methods and Operators
 
         public static void SetApiKey(string key) {
-            apiKey = key;
+            ApiKey = key;
         }
 
         public static void SetSecretKey(string key) {
-            secretKey = key;
+            SecretKey = key;
         }
 
         #endregion
 
         #region Methods
 
-        internal static string GetApiKey() {
-            if (String.IsNullOrEmpty(apiKey)) {
-                apiKey = ConfigurationManager.AppSettings["MotionMailApiKey"];
+        public static string GetApiKey() {
+            if (String.IsNullOrEmpty(ApiKey)) {
+                ApiKey = ConfigurationManager.AppSettings["MotionMailApiKey"];
             }
 
-            return apiKey;
+            return ApiKey;
         }
 
-        internal static string GetSecretKey() {
-            if (String.IsNullOrEmpty(secretKey)) {
-                apiKey = ConfigurationManager.AppSettings["MotionMailSecretKey"];
+        public static string GetSecretKey() {
+            if (String.IsNullOrEmpty(SecretKey)) {
+                SecretKey = ConfigurationManager.AppSettings["MotionMailSecretKey"];
             }
 
-            return apiKey;
+            return SecretKey;
         }
 
         #endregion
