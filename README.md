@@ -34,7 +34,7 @@ You can also supply your API and Secret key to the constructor of the service yo
 #Generating a DateTime token
 After you have configured your API and Secret keys, you will use the IDateTimeTokenService to create a new token
 
-```csharp
+```c#
     try {
 		IDateTimeTokenService service = new DateTimeTokenTokenService();
 		DateTimeTokenCreateCommand command = DateTimeTokenCreateCommand.FromDateTime(Clock.Now().DateTime);
