@@ -7,10 +7,10 @@
 
     using Newtonsoft.Json;
 
-    public class DateTimeTokenTokenService : IDateTimeTokenService {
+    public class DateTimeTokenService : IDateTimeTokenService {
         #region Constructors and Destructors
 
-        public DateTimeTokenTokenService(string apiKey = null, string privateKey = null) {
+        public DateTimeTokenService(string apiKey = null, string privateKey = null) {
             ApiKey = apiKey;
             PrivateKey = privateKey;
         }
