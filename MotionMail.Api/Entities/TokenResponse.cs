@@ -6,6 +6,8 @@
 
         public DateTimeOffset DateTimeCreated { get; set; }
 
+        public string OriginalValue { get; set; }
+
         public bool Success { get; set; }
 
         public string Value { get; set; }

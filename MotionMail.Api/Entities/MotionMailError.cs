@@ -1,5 +1,6 @@
 ﻿namespace MotionMail.Api.Entities {
     using System;
+    using System.Net;
 
     public class MotionMailError {
         #region Public Properties
@@ -10,7 +11,7 @@
 
         public string Param { get; set; }
 
-        public long? StatusCode { get; set; }
+        public HttpStatusCode StatusCode { get; set; }
 
         public string Type { get; set; }
 
