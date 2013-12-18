@@ -28,7 +28,7 @@ In the `Application_Start` method of your web application or the `Run` method of
 You can also supply your API and Secret key to the constructor of the service you are using
 
 ```c#
-	IDateTimeTokenService service = new DateTimeTokenTokenService("YOUR_API_KEY", YOUR_SECRET_KEY");
+	IDateTimeTokenService service = new DateTimeTokenTokenService("YOUR_API_KEY", "YOUR_SECRET_KEY");
 ```
 
 #Generating a DateTime token
