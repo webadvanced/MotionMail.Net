@@ -18,18 +18,23 @@ In your config file add the following entries
 
 **Option 2** - `MotionMailConfiguration`
 In the `Application_Start` method of your web application or the `Run` method of your console application
-	
+
+```csharp	
 	MotionMailConfiguration.SetApiKey(YOUR_API_KEY);
 	MotionMailConfiguration.SetSecretKey(YOUR_SECRET_KEY);
+```
 
 **Option 3** - Constructor Argument
 You can also supply your API and Secret key to the constructor of the service you are using
 
+```csharp
 	IDateTimeTokenService service = new DateTimeTokenTokenService(YOUR_API_KEY, YOUR_SECRET_KEY);
+```
 
 #Generating a DateTime token
 After you have configured your API and Secret keys, you will use the IDateTimeTokenService to create a new token
 
+```csharp
     try {
 		IDateTimeTokenService service = new DateTimeTokenTokenService();
 		DateTimeTokenCreateCommand command = DateTimeTokenCreateCommand.FromDateTime(Clock.Now().DateTime);
@@ -42,9 +47,11 @@ After you have configured your API and Secret keys, you will use the IDateTimeTo
 		string param = ex.MotionMailError.Param;
 		HttpStatusCode statusCode = ex.MotionMailError.StatusCode;
 	}
+```
 
 #Using a DateTime token
 Once you have generated a new url token, you simply need to add the following to any timer embed code url
 
+```html
     <img src="...?datetime=URL_TOKEN" />
-	
+```
