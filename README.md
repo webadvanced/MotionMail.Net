@@ -19,7 +19,7 @@ In your config file add the following entries
 **Option 2** - `MotionMailConfiguration`
 In the `Application_Start` method of your web application or the `Run` method of your console application
 
-```javascript	
+```c#	
 	MotionMailConfiguration.SetApiKey(YOUR_API_KEY);
 	MotionMailConfiguration.SetSecretKey(YOUR_SECRET_KEY);
 ```
@@ -27,14 +27,14 @@ In the `Application_Start` method of your web application or the `Run` method of
 **Option 3** - Constructor Argument
 You can also supply your API and Secret key to the constructor of the service you are using
 
-```javascript
+```c#
 	IDateTimeTokenService service = new DateTimeTokenTokenService(YOUR_API_KEY, YOUR_SECRET_KEY);
 ```
 
 #Generating a DateTime token
 After you have configured your API and Secret keys, you will use the IDateTimeTokenService to create a new token
 
-```javascript
+```c#
     try {
 		IDateTimeTokenService service = new DateTimeTokenTokenService();
 		DateTimeTokenCreateCommand command = DateTimeTokenCreateCommand.FromDateTime(Clock.Now().DateTime);
