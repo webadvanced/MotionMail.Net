@@ -53,5 +53,5 @@ After you have configured your API and Secret keys, you will use the IDateTimeTo
 Once you have generated a new url token, you simply need to add the following to any timer embed code url
 
 ```html
-    <img src="...?datetime=URL_TOKEN" />
+    <img src="...?endDateTimeToken=URL_TOKEN" />
 ```
