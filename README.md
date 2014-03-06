@@ -1,7 +1,7 @@
-MotionMail.Net
+MotionMail .Net
 ==============
 
-MotionMail API Lib for ASP.NET
+[MotionMail](http://motionmailapp.com) API Lib for ASP.NET
 
 #Configuring your application
 
