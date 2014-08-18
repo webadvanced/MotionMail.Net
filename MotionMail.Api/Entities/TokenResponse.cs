@@ -10,7 +10,7 @@
 
         public bool Success { get; set; }
 
-        public string Value { get; set; }
+        public string Data { get; set; }
 
         #endregion
     }
